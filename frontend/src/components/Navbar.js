@@ -1,22 +1,32 @@
 import React from 'react';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
+import { FaShoppingCart } from 'react-icons/fa';
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
   return (
     <nav className="navbar">
-      <div className="brand-title">Diff-Jewel</div>
+      <div className="brand-title">
+        <Link to="/" className="brand-link">Diff-Jewel</Link>
+      </div>
       <div className="navbar-links">
         <ul>
-          <li><a href="#home">Ring</a></li>
-          <li><a href="#about">Necklace</a></li>
-          <li><a href="#services">Bracklet</a></li>
+          <li><Link to="/ring">Ring</Link></li>
+          <li><Link to="/necklace">Necklace</Link></li>
+          <li><Link to="/bracelet">Bracelet</Link></li>
         </ul>
       </div>
-      <div className="auth-buttons">
-        <Link to="/login"><button className="login-button">Login</button></Link>
-        <Link to="/register"><button className="register-button">Register</button></Link>
-      </div>
+      {user ? (
+        <div className="user-profile">
+          <Link to="/profile" className="profile-link">{user.username}</Link>
+          <Link to="/cart"><FaShoppingCart className="cart-icon" /></Link>
+        </div>
+      ) : (
+        <div className="auth-buttons">
+          <Link to="/login"><button className="login-button">Login</button></Link>
+          <Link to="/register"><button className="register-button">Register</button></Link>
+        </div>
+      )}
     </nav>
   );
 };

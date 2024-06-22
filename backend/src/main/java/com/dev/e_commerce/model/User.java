@@ -28,5 +28,5 @@ public class User {
     private String email;
 
     @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private String address ;
 }
