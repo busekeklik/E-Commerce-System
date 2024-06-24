@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { getProductById } from '../services/api';
 
 const ProductDetail = ({ match }) => {
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState({}); // Boş bir nesne ile başlatılıyor
   const { id } = match.params;
 
   useEffect(() => {
     getProductById(id).then(response => {
       setProduct(response.data);
     });
-  }, [id]);
+  }, [id]); // 'id' değiştiğinde yeniden yükleme yapılacak
 
   return (
     <div>

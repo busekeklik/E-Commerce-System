@@ -1,9 +1,16 @@
 import React from 'react';
 import './Navbar.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
 
-const Navbar = ({ user }) => {
+const Navbar = ({ user, setUser }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setUser(null);
+    navigate('/');
+  };
+
   return (
     <nav className="navbar">
       <div className="brand-title">
@@ -18,9 +25,9 @@ const Navbar = ({ user }) => {
       </div>
       {user ? (
         <div className="user-profile">
-          <Link to="/profile" className="profile-link">{user.username}</Link>
           <Link to="/cart"><FaShoppingCart className="cart-icon" /></Link>
-          
+          <button className="username">{user.username}</button>
+          <button className="logout-button" onClick={handleLogout}>Logout</button>
         </div>
       ) : (
         <div className="auth-buttons">

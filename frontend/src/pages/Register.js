@@ -34,7 +34,9 @@ const Register = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:8080/api/1.0/users/addUser', body);
+      const response = await axios.post('http://localhost:8080/api/1.0/users/addUser', body, { withCredentials: true });
+
+
       console.log('API response:', response);
       if (response.status === 200) {
         console.log('Registration successful');
