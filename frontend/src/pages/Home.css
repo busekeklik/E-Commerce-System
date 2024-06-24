@@ -1,0 +1,16 @@
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .product-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .product {
+    width: 30%;
+    margin-bottom: 20px;
+  }
+  

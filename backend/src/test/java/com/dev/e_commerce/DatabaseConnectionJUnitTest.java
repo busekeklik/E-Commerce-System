@@ -12,7 +12,7 @@ public class DatabaseConnectionJUnitTest {
 
     @Test
     public void testDatabaseConnection() {
-        String jdbcUrl = "jdbc:mysql://localhost:3306/diff-jewel";
+        String jdbcUrl = "jdbc:mysql://localhost:3306/diff_jewel";
         String username = "root";
         String password = "Root123";
 

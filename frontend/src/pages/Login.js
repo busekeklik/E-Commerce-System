@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: 'http://localhost:8080/api/1.0/',
+  withCredentials: true
+});
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -9,18 +15,14 @@ const Login = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    const response = await fetch('https://3000/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username, password })
-    });
-    const data = await response.json();
-    if (response.ok) {
-      navigate('/');
-    } else {
-      console.error(data.message);
+    
+    try {
+      const response = await api.post('authenticate', { username, password });
+      if (response.status === 200) {
+        navigate('/');
+      }
+    } catch (error) {
+      console.error('Login failed:', error.response ? error.response.data : error.message);
     }
   };
 

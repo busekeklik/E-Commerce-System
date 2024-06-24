@@ -20,9 +20,11 @@ const Navbar = ({ user }) => {
         <div className="user-profile">
           <Link to="/profile" className="profile-link">{user.username}</Link>
           <Link to="/cart"><FaShoppingCart className="cart-icon" /></Link>
+          
         </div>
       ) : (
         <div className="auth-buttons">
+          <Link to="/cart"><FaShoppingCart className="cart-icon" /></Link>
           <Link to="/login"><button className="login-button">Login</button></Link>
           <Link to="/register"><button className="register-button">Register</button></Link>
         </div>
