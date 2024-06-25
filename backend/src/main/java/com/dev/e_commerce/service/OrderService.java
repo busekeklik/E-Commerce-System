@@ -35,7 +35,7 @@ public class OrderService {
 
     public Order updateOrder(Long id, Order order){
         if(orderRepository.findById(id).isPresent()){
-            order.setId(id);
+            order.setOrderId(id);
             return orderRepository.save(order);
         }
         return null;

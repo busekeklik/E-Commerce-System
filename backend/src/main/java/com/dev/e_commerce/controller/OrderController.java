@@ -28,18 +28,18 @@ public class OrderController {
         return orderService.saveOrder(order);
     }
 
-    @GetMapping("/{id}")
-    public Optional<Order> getOrder(@PathVariable Long id) {
-        return orderService.getOrderById(id);
+    @GetMapping("/{orderId}")
+    public Optional<Order> getOrder(@PathVariable Long orderId) {
+        return orderService.getOrderById(orderId);
     }
 
-    @PutMapping("/{id}")
-    public Order updateOrder(@PathVariable Long id, @RequestBody Order order) {
-        return orderService.updateOrder(id, order);
+    @PutMapping("/{orderId}")
+    public Order updateOrder(@PathVariable Long orderId, @RequestBody Order order) {
+        return orderService.updateOrder(orderId, order);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrder(id);
+    @DeleteMapping("/{orderId}")
+    public void deleteOrder(@PathVariable Long orderId) {
+        orderService.deleteOrder(orderId);
     }
 }

@@ -6,6 +6,6 @@ import java.util.List;
 import com.dev.e_commerce.model.OrderItem;
 
 public interface OrderItemRepository extends JpaRepository<OrderItem, Integer> {
-    public List<OrderItem> findByOrderId(int orderId);
+    public List<OrderItem> findByOrderOrderId(int orderId);
 
 }

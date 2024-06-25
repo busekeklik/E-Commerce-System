@@ -13,7 +13,7 @@ export const getProductById = (id) => {
 export const getRandomProducts = (count) => {
   return axios.get(`${API_URL}/products`)
     .then(response => {
-      const products = response.data;
-      return products.sort(() => 0.5 - Math.random()).slice(0, count);
+      const products = Array.isArray(response.data) ? response.data : [];
+      return products.sort(() => Math.random() - 0.5).slice(0, count);
     });
 };

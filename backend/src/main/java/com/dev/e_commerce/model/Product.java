@@ -13,7 +13,7 @@ import lombok.*;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long product_id;
 
     @Column(nullable = false)
     private String name;
@@ -28,6 +28,10 @@ public class Product {
     private int stock;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @JoinColumn(name = "category_id")
     private Category category;
+
+    public void setProduct_Id(Long product_id) {
+        this.product_id = product_id;
+    }
 }

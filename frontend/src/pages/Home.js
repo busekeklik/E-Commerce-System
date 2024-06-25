@@ -14,12 +14,16 @@ const Home = () => {
     <div>
       <h1>Home</h1>
       <ul>
-        {products.map(product => (
-          <li key={product.id}>{product.name} - ${product.price}</li>
-        ))}
+        {products ? (
+          products.map(product => (
+            <li key={product.id}>{product.name} - ${product.price}</li>
+          ))
+        ) : (
+          <li>No products found</li>
+        )}
       </ul>
     </div>
   );
-};
+}
 
 export default Home;

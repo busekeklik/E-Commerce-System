@@ -4,6 +4,8 @@ import com.dev.e_commerce.model.Product;
 import com.dev.e_commerce.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,9 +36,21 @@ public class ProductService {
 
     public Product updateProduct(Long id, Product product) {
         if (productRepository.existsById(id)) {
-            product.setId(id);
+            product.setProduct_Id(id);
             return productRepository.save(product);
         }
         return null;
     }
+
+    public List<Product> getProductsByCategory(Long Id) {
+        List<Product> productList = new ArrayList<>();
+
+
+        productList = productRepository.findByCategory_Id(Id);
+        if (productList == null) {
+            return new ArrayList<>();
+        }
+        return productList;
+    }
+
 }
