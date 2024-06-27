@@ -9,6 +9,8 @@ import Ring from './pages/Ring';
 import Bracelet from './pages/Bracelet';
 import Necklace from './pages/Necklace';
 import ProductDetail from './pages/ProductDetail';
+import Cart from './pages/Cart';
+
 import './App.css';
 
 const App = () => {
@@ -27,6 +29,7 @@ const App = () => {
           <Route path="/bracelet" element={<Bracelet />} />
           <Route path="/necklace" element={<Necklace />} />
           <Route path="/:category/:id" element={<ProductDetail />} />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
       </div>
     </Router>

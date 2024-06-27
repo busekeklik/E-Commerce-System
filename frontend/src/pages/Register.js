@@ -34,7 +34,7 @@ const Register = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:8080/api/1.0/users/addUser', body, { withCredentials: true });
+      const response = await axios.post('http://localhost:8080/apiusers/addUser', body, { withCredentials: true });
 
 
       console.log('API response:', response);

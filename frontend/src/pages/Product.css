@@ -1,18 +1,23 @@
 .product {
-  border: 1px solid #ddd;
-  padding: 16px;
-  margin: 16px;
+  display: inline-block;
+  width: calc(33.33% - 50px);
+  margin-bottom: 20px;
+  margin-right: 20px;
+  vertical-align: top;
   text-align: center;
+  background-color: #f4e0da;
+  padding: 15px;
+  border-radius: 8px;
 }
 
 .product img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
+  max-width: 100%;
 }
 
-.add-to-cart-link {
-  display: block;
-  margin-top: 8px;
-  color: blue;
+.product h3 {
+  margin: 10px 0;
+}
+
+.product p {
+  margin: 5px 0;
 }

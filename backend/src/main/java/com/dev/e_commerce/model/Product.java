@@ -27,6 +27,9 @@ public class Product {
     @Column(nullable = false)
     private int stock;
 
+    @Column(nullable = false)
+    private String photo_path;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;

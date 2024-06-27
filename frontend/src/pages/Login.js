@@ -19,7 +19,7 @@ const Login = ({ setUser }) => {
     });
   };
 
-  const handleLogin = async (event) => {
+const handleLogin = async (event) => {
     event.preventDefault();
 
     try {

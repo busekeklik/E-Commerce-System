@@ -1,40 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import { getProducts } from '../services/api';
-import Product from './Product';
+import { useNavigate } from 'react-router-dom';
 
 const Bracelet = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const data = await getProducts('bracelet');
-        console.log('Fetched data:', data); // Veriyi konsolda kontrol edin
-        setProducts(data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-        setError(error.message);
-        setLoading(false);
-      }
-    };
-
     fetchProducts();
   }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const data = await getProducts(2);
+      setProducts(data);
+      setLoading(false);
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+    }
+  };
+
+  const addToCart = (productId) => {
+    //Product add
+    navigate('/cart');
+  };
 
   return (
     <div>
       <h1>Bracelets</h1>
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
-      <ul>
-        {Array.isArray(products) && products.map(product => (
-          <Product key={product.id} product={product} />
-        ))}
-      </ul>
-    </div>
+      <div className="products-container">
+        {products.length > 0 ? (
+          products.map(product => (
+            <div className="product" key={product.id}>
+              <img src={product.photo_path} alt={product.name} />
+              <h3>{product.name}</h3>
+              <p>${product.price}</p>
+              <button onClick={() => addToCart(product.id, product.name, product.price)}>Add to Cart</button>
+            </div>
+          ))
+        ) : (
+          <p>No products found</p>
+        )}
+      </div>
+      </div>
   );
 };
 

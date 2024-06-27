@@ -2,8 +2,7 @@ package com.dev.e_commerce.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
-import java.util.Set;
+
 
 @Getter
 @Setter
@@ -11,8 +10,9 @@ import java.util.Set;
 @AllArgsConstructor
 @ToString
 @Entity
-@Table(name="orders")
+@Table(name = "orders")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
@@ -24,13 +24,15 @@ public class Order {
     @Column(nullable = false)
     private double total_price;
 
-    @Column(nullable = false)
-    private LocalDateTime order_date;
-
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "order")
-    private Set<OrderItem> orderItems;
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 }

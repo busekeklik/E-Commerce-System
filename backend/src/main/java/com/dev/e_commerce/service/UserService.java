@@ -3,6 +3,7 @@ package com.dev.e_commerce.service;
 import com.dev.e_commerce.model.User;
 import com.dev.e_commerce.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

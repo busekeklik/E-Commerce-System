@@ -1,23 +1,41 @@
 package com.dev.e_commerce.controller;
 
+import com.dev.e_commerce.model.User;
+import com.dev.e_commerce.repository.UserRepository;
+import com.dev.e_commerce.service.UserService;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/1.0")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class AuthController {
+
+    private final UserService userService;
+    private final UserRepository userRepository;
+
+    @Autowired
+    public AuthController(UserService userService, UserRepository userRepository) {
+        this.userService = userService;
+        this.userRepository = userRepository;
+    }
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse> authenticate(@RequestBody AuthRequest request) {
-        if ("user".equals(request.getUsername()) && "password".equals(request.getPassword())) {
-            return ResponseEntity.ok(new AuthResponse("success", "User authenticated successfully"));
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthResponse("error", "Invalid username or password"));
+        Optional<User> userOptional = Optional.ofNullable(userRepository.findByUsername(request.getUsername()));
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (user.getPassword().equals(request.getPassword())) {
+                return ResponseEntity.ok(new AuthResponse("success", "User authenticated successfully"));
+            }
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthResponse("error", "Invalid username or password"));
     }
 
     @Setter
@@ -25,7 +43,6 @@ public class AuthController {
     public static class AuthRequest {
         private String username;
         private String password;
-
     }
 
     @Setter
@@ -38,6 +55,5 @@ public class AuthController {
             this.status = status;
             this.message = message;
         }
-
     }
 }
