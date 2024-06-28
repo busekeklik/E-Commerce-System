@@ -58,18 +58,21 @@ spring.datasource.username=your_username
 spring.datasource.password=your_password
 
 3. Build and run the backend application:
- 
+ ```sh
 ./mvnw spring-boot:run
-
+```
 ### Frontend
 
 1. Install the dependencies:
 
-npm install
-
+```sh
+   npm install
+```
 2. Start the frontend application:
 
+```sh
 npm start
+```
 
 The backend server will be running on 'http://localhost:8080' and the frontend on 'http://localhost:3000'.
 
