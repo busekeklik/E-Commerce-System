@@ -63,7 +63,7 @@ const Cart = () => {
         {cartItems.map(item => (
           <li key={item.orderId} className="cart-item">
             <div className="item-info">
-              <img src={item.product.photo_path} alt={item.product.name} />
+              <img src={item.product.photo_path} alt={item.product.name} className="product-image" />
               <div className="item-details">
                 <h3>{item.product.name}</h3>
                 <p>Price: ${item.product.price}</p>
