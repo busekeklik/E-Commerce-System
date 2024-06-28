@@ -33,19 +33,14 @@ export const getCartItems = async () => {
   }
 };
 
+
 export const addCartItem = async (product_id, total_price, user_id) => {
   try {
-    const response = await axios.post(`${API_URL}/orders/add`, null, {
-      params: {
-        product_id,
-        total_price,
-        user_id
-      }
-    });
-    return response.data;
+      const response = await axios.post(API_URL, { product_id, total_price, user_id });
+      return response.data;
   } catch (error) {
-    console.error('Error adding to cart:', error);
-    throw error;
+      console.error('Error adding to cart:', error);
+      throw error;
   }
 };
 

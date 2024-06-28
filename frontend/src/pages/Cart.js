@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getCartItems, addCartItem, updateCartItem, deleteCartItem } from '../services/api';
+import { getCartItems, updateCartItem, deleteCartItem } from '../services/api';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -13,10 +13,8 @@ const Cart = () => {
   const fetchCartItems = async () => {
     try {
       const response = await getCartItems();
-      if (response.data) {
-        setCartItems(response.data);
-        calculateTotalPrice(response.data);
-      }
+      setCartItems(response.data);
+      calculateTotalPrice(response.data);
     } catch (error) {
       console.error('Error fetching cart items:', error);
     }
@@ -88,7 +86,7 @@ const Cart = () => {
         {cartItems.length > 0 && (
           <>
             <button onClick={handleCheckout}>Proceed to Checkout</button>
-            <button onClick={() => setCartItems([])}>Clear Cart</button> { }
+            <button onClick={() => setCartItems([])}>Clear Cart</button>
           </>
         )}
         <Link to="/">Continue Shopping</Link>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getRandomProducts, addCartItem } from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import ProductList from '../components/ProductList';
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -12,39 +13,38 @@ const Home = () => {
 
   const fetchProducts = async () => {
     try {
-      const randomProducts = await getRandomProducts(3);
-      setProducts(randomProducts);
+        const randomProducts = await getRandomProducts(3);
+        console.log("Fetched products:", randomProducts);
+        setProducts(randomProducts);
     } catch (error) {
-      console.error('Error fetching random products:', error);
+        console.error('Error fetching random products:', error);
     }
-  };
+};
 
-  const addToCart = async (product_id, total_price, user_id) => {
-    try {
-      await addCartItem(product_id, total_price, user_id);
+const addToCart = async (product_id, total_price) => {
+  if (typeof product_id === 'undefined') {
+      console.error('Product ID is undefined');
+      return;
+  }
+  try {
+      const userString = localStorage.getItem('user');
+      const user = JSON.parse(userString);
+      if (!user || !user.user_id) {
+          console.error('User ID not found');
+          return;
+      }
+      console.log('Adding to cart:', { product_id, total_price, user_id: user.user_id });
+      await addCartItem(product_id, total_price, user.user_id);
       navigate('/cart');
-    } catch (error) {
+  } catch (error) {
       console.error('Error adding to cart:', error);
-    }
-  };
+  }
+};
 
   return (
     <div>
       <h1>Home</h1>
-      <div className="products-container">
-        {products.length > 0 ? (
-          products.map(product => (
-            <div className="product" key={product.id}>
-              <img src={product.photo_path} alt={product.name} />
-              <h3>{product.name}</h3>
-              <p>${product.price}</p>
-              <button onClick={() => addToCart(product.id, product.price)}>Add to Cart</button>
-            </div>
-          ))
-        ) : (
-          <p>No products found</p>
-        )}
-      </div>
+      <ProductList products={products} addToCart={addToCart} />
     </div>
   );
 };

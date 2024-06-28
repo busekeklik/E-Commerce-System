@@ -1,8 +1,7 @@
 package com.dev.e_commerce.controller;
 
+import com.dev.e_commerce.dto.OrderRequest;
 import com.dev.e_commerce.model.Order;
-import com.dev.e_commerce.model.Product;
-import com.dev.e_commerce.model.User;
 import com.dev.e_commerce.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,24 +25,19 @@ public class OrderController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Order> addOrder(@RequestParam Long product_id, @RequestParam double total_price, @RequestParam Long user_id) {
-        logger.debug("Received request to add order with product_id: {}, total_price: {}, user_id: {}", product_id, total_price, user_id);
+    public ResponseEntity<Order> addOrder(@RequestBody OrderRequest orderRequest) {
+        logger.debug("Received request to add order with product_id: {}, total_price: {}, user_id: {}",
+                orderRequest.getProduct_id(), orderRequest.getTotal_price(), orderRequest.getUser_id());
 
-        User user = new User();
-        user.setUser_id(user_id);
-
-        Product product = new Product();
-        product.setProduct_Id(product_id);
-
-        Order order = new Order();
-        order.setUser(user);
-        order.setProduct(product);
-        order.setTotal_price(total_price);
-        order.setStatus("Pending");
-
-        Order savedOrder = orderService.saveOrder(order);
-        logger.debug("Order saved successfully: {}", savedOrder);
-        return ResponseEntity.ok(savedOrder);
+        return orderService.addOrder(orderRequest)
+                .map(order -> {
+                    logger.debug("Order saved successfully: {}", order);
+                    return ResponseEntity.ok(order);
+                })
+                .orElseGet(() -> {
+                    logger.error("Failed to save order");
+                    return ResponseEntity.status(400).build();
+                });
     }
 
     @GetMapping("/{id}")

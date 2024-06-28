@@ -32,10 +32,10 @@ public class AuthController {
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             if (user.getPassword().equals(request.getPassword())) {
-                return ResponseEntity.ok(new AuthResponse("success", "User authenticated successfully"));
+                return ResponseEntity.ok(new AuthResponse("success", "User authenticated successfully", user));
             }
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthResponse("error", "Invalid username or password"));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new AuthResponse("error", "Invalid username or password", null));
     }
 
     @Setter
@@ -50,10 +50,12 @@ public class AuthController {
     public static class AuthResponse {
         private String status;
         private String message;
+        private User user;
 
-        public AuthResponse(String status, String message) {
+        public AuthResponse(String status, String message, User user) {
             this.status = status;
             this.message = message;
+            this.user = user;
         }
     }
 }

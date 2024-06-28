@@ -19,19 +19,25 @@ const Login = ({ setUser }) => {
     });
   };
 
-const handleLogin = async (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
-
     try {
-      const response = await axios.post('http://localhost:8080/api/1.0/authenticate', formData, { withCredentials: true });
-      if (response.status === 200) {
-        setUser(response.data);
-        navigate('/');
-      }
+        const response = await axios.post('http://localhost:8080/api/1.0/authenticate', formData);
+        console.log('Server response:', response.data);
+        if (response.status === 200 && response.data.user) {
+            const { token, user } = response.data;
+            console.log('User data:', user);
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(user));
+            setUser(user);
+            navigate('/');
+        } else {
+            setError('Login failed: No user data returned');
+        }
     } catch (error) {
-      setError(error.response ? error.response.data.message : error.message);
+        setError(error.response ? error.response.data.message : error.message);
     }
-  };
+};
 
   return (
     <div className="login-container">
