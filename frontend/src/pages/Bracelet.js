@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { getProducts } from '../services/api';
+import { getProducts, addCartItem } from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import './CategoryStyles.css';
 
 const Bracelet = () => {
   const [products, setProducts] = useState([]);
@@ -9,23 +10,34 @@ const Bracelet = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await getProducts(2);
+        setProducts(data);
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
+    };
     fetchProducts();
   }, []);
 
-  const fetchProducts = async () => {
-    try {
-      const data = await getProducts(2);
-      setProducts(data);
-      setLoading(false);
-    } catch (error) {
-      setError(error.message);
-      setLoading(false);
+  const addToCart = async (productId, price) => {
+    const userString = localStorage.getItem('user');
+    const user = JSON.parse(userString);
+    if (!user || !user.user_id) {
+      console.error('User ID not found');
+      return;
     }
-  };
 
-  const addToCart = (productId) => {
-    //Product add
-    navigate('/cart');
+    try {
+      await addCartItem(productId, price, user.user_id);
+      console.log('Item added to cart successfully');
+      navigate('/cart');
+    } catch (error) {
+      console.error('Error adding item to cart:', error);
+    }
   };
 
   return (
@@ -34,20 +46,16 @@ const Bracelet = () => {
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
       <div className="products-container">
-        {products.length > 0 ? (
-          products.map(product => (
-            <div className="product" key={product.id}>
-              <img src={product.photo_path} alt={product.name} />
-              <h3>{product.name}</h3>
-              <p>${product.price}</p>
-              <button onClick={() => addToCart(product.id, product.name, product.price)}>Add to Cart</button>
-            </div>
-          ))
-        ) : (
-          <p>No products found</p>
-        )}
+        {products.map(product => (
+          <div key={product.product_id} className="product">
+            <img src={product.photo_path} alt={product.name} />
+            <h3>{product.name}</h3>
+            <p>${product.price}</p>
+            <button onClick={() => addToCart(product.product_id, product.price)}>Add to Cart</button>
+          </div>
+        ))}
       </div>
-      </div>
+    </div>
   );
 };
 

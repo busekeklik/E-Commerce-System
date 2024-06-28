@@ -7,7 +7,6 @@ const Profile = ({ user }) => {
       <h2>Welcome, {user.username}!</h2>
       <p>Email: {user.email}</p>
       {
-        //Profile's info
       }
     </div>
   );

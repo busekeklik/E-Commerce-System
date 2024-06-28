@@ -50,10 +50,10 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public void deleteOrder(Long id) {
-        orderRepository.deleteById(id);
+    public void deleteOrder(Long orderId) {
+        System.out.println("Deleting order with orderId: " + orderId);
+        orderRepository.deleteById(orderId);
     }
-
     public Optional<Order> updateOrder(Long id, Order order) {
         return orderRepository.findById(id).map(existingOrder -> {
             existingOrder.setStatus(order.getStatus());

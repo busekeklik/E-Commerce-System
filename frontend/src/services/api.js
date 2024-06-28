@@ -2,16 +2,25 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:8080/api';
 
-export const getProductById = (id) => {
-  return axios.get(`${API_URL}/products/${id}`);
+export const getProductById = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL}/products/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching product by ID:', error);
+    throw error;
+  }
 };
 
-export const getRandomProducts = (count) => {
-  return axios.get(`${API_URL}/products`)
-    .then(response => {
-      const products = Array.isArray(response.data) ? response.data : [];
-      return products.sort(() => Math.random() - 0.5).slice(0, count);
-    });
+export const getRandomProducts = async (count) => {
+  try {
+    const response = await axios.get(`${API_URL}/products`);
+    const products = Array.isArray(response.data) ? response.data : [];
+    return products.sort(() => Math.random() - 0.5).slice(0, count);
+  } catch (error) {
+    console.error('Error fetching random products:', error);
+    throw error;
+  }
 };
 
 export const getProducts = async (categoryId) => {
@@ -33,20 +42,21 @@ export const getCartItems = async () => {
   }
 };
 
-
 export const addCartItem = async (product_id, total_price, user_id) => {
+  const payload = { product_id, total_price, user_id };
+  console.log("Sending payload:", payload);
   try {
-      const response = await axios.post(API_URL, { product_id, total_price, user_id });
-      return response.data;
+    const response = await axios.post(`${API_URL}/orders/add`, payload);
+    return response.data;
   } catch (error) {
-      console.error('Error adding to cart:', error);
-      throw error;
+    console.error('Error adding to cart:', error.response ? error.response.data : error);
+    throw error;
   }
 };
 
-export const updateCartItem = async (itemId, updatedItem) => {
+export const updateCartItem = async (orderId, updatedItem) => {
   try {
-    const response = await axios.put(`${API_URL}/orders/${itemId}`, updatedItem);
+    const response = await axios.put(`${API_URL}/orders/${orderId}`, updatedItem);
     return response.data;
   } catch (error) {
     console.error('Error updating cart item:', error);
@@ -54,9 +64,10 @@ export const updateCartItem = async (itemId, updatedItem) => {
   }
 };
 
-export const deleteCartItem = async (itemId) => {
+export const deleteCartItem = async (orderId) => {
+  console.log("Sending DELETE request for orderId:", orderId);
   try {
-    const response = await axios.delete(`${API_URL}/orders/${itemId}`);
+    const response = await axios.delete(`${API_URL}/orders/${orderId}`);
     return response.data;
   } catch (error) {
     throw error;
